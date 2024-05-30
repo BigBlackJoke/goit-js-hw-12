@@ -1,20 +1,38 @@
-export const pixabayApi = (usersRequest) => {
-    const searchParams = new URLSearchParams({
-            key: "44096290-4b282435e4320beb633e0ff8a",
-            q: usersRequest,
-            image_type: "photo",
-            orientation: "horizontal",
-            safesearch: "true",
-        });
+import axios from 'axios';
 
-        const url = `https://pixabay.com/api/?${searchParams.toString()}`;
+// export const pixabayApi = (usersRequest) => {
+//     const searchParams = new URLSearchParams({
+//             key: "44096290-4b282435e4320beb633e0ff8a",
+//             q: usersRequest,
+//             image_type: "photo",
+//             orientation: "horizontal",
+//             safesearch: "true",
+//         });
 
-    return fetch(url)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(response.status);
+//         const url = `https://pixabay.com/api/?${searchParams.toString()}`;
+
+//     return fetch(url)
+//         .then((response) => {
+//             if (!response.ok) {
+//                 throw new Error(response.status);
+//             }
+//             return response.json();
+//         })
+//         .catch((error) => console.log(error));    
+// };
+
+export const pixabayApi = async (usersRequest) => {
+    try {
+        const search = await axios.get("https://pixabay.com/api/?${searchParams.toString()}", {
+            searchParams: {
+                key: "44096290-4b282435e4320beb633e0ff8a",
+                q: usersRequest,
+                image_type: "photo",
+                orientation: "horizontal",
+                safesearch: "true"
             }
-            return response.json();
         })
-        .catch((error) => console.log(error));    
+    } catch (error) {
+        console.log(error);
+    }
 };
