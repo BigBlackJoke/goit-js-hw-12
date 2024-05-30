@@ -1,0 +1,53 @@
+/**
+  |============================
+  | include css partials with
+  | default @import url()
+  |============================
+*/
+@import url('./reset.css');
+@import url('./vite-promo.css');
+@import url('./header.css');
+@import url('./gallery.css');
+
+:root {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color: #242424;
+  background-color: rgba(255, 255, 255, 0.87);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+.loader {
+  display: block;
+  position: relative;
+  height: 12px;
+  width: 80%;
+  border: 1px solid #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.loader:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background: rgba(78, 117, 255, 1);
+  animation: 6s prog ease-in infinite;
+}
+
+@keyframes prog {
+  to {
+    width: 100%;
+  }
+}
