@@ -19,6 +19,8 @@ loader.style.display = 'none';
 
 let lightbox = new SimpleLightbox('.gallery a', { captions: true, captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250 });
 
+let page = 1;
+
 form.addEventListener("submit", (event) => {
     event.preventDefault();
     gallery.innerHTML = '';
@@ -29,7 +31,7 @@ form.addEventListener("submit", (event) => {
 
         const start = async () => {
             try {
-                const data = await pixabayApi(input.value);
+                const data = await pixabayApi(input.value, page);
 
                 if (data.hits.length === 0) {
                     iziToast.show({
@@ -53,10 +55,9 @@ form.addEventListener("submit", (event) => {
                 loader.style.display = 'none';
                 event.target.reset();
             }
-        };
+        }
         
         start();
-        
     } else {
         iziToast.show({
             message: 'Searching input cannot be empty! Please fill the input to start searching.',
@@ -69,4 +70,20 @@ form.addEventListener("submit", (event) => {
             timeout: 2000
         });
     }
+});
+
+loadMoreButton.addEventListener("click", () => {
+    const loadMore = async () => {
+        try {
+            const data = await pixabayApi(input.value, page);
+            renderFunctions(data, gallery);
+            lightbox.refresh();
+            loadMoreButton.style.display = 'block';
+            page += 1;
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    loadMore();
 });
