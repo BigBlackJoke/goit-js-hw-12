@@ -14,8 +14,6 @@ const gallery = document.querySelector(".gallery-elements");
 const loader = document.querySelector(".loader");
 const loadMoreButton = document.querySelector(".next-page-button");
 
-let page = 1;
-
 loadMoreButton.style.display = 'none';
 loader.style.display = 'none';
 
@@ -31,7 +29,7 @@ form.addEventListener("submit", (event) => {
 
         const start = async () => {
             try {
-                const data = await pixabayApi(input.value, page);
+                const data = await pixabayApi(input.value);
 
                 if (data.hits.length === 0) {
                     iziToast.show({
@@ -46,18 +44,9 @@ form.addEventListener("submit", (event) => {
                     });
                 } else {
                     renderFunctions(data, gallery);
-                    loadMoreButton.style.display = 'block';
                     lightbox.refresh();
-
-                    loadMoreButton.addEventListener("click", async () => {
-                        try {
-                            renderFunctions(data, gallery);
-                            page += 1;
-                        } catch (error) {
-                            console.log(error);
-                        }
-                    })
-                };
+                    loadMoreButton.style.display = 'block';
+                }
             } catch (error) {
                 console.log(error);
             } finally {
@@ -67,6 +56,7 @@ form.addEventListener("submit", (event) => {
         };
         
         start();
+        
     } else {
         iziToast.show({
             message: 'Searching input cannot be empty! Please fill the input to start searching.',

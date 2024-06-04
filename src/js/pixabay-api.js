@@ -10,7 +10,7 @@ export const pixabayApi = async (usersRequest) => {
                 orientation: "horizontal",
                 safesearch: "true",
                 per_page: 15,
-                page: page
+                page: 1
             }
         });
         return response.data;
