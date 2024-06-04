@@ -26,7 +26,15 @@ form.addEventListener("submit", (event) => {
 
         loader.style.display = 'block';
 
-        pixabayApi(input.value)
+        const start = async () => {
+            try {
+                start = await axios.get(pixabayApi(input.value));
+            } catch (error) {
+        console.log(error);
+        }
+        }
+
+        start()
             .then((data) => {
                 if (data.hits.length === 0) {
                     iziToast.show({
@@ -51,6 +59,33 @@ form.addEventListener("submit", (event) => {
                 loader.style.display = 'none';
                 event.target.reset();
             });
+            
+
+        // pixabayApi(input.value)
+        //     .then((data) => {
+        //         if (data.hits.length === 0) {
+        //             iziToast.show({
+        //                 message: 'Sorry, there are no images matching your search query. Please, try again!',
+        //                 messageColor: 'rgba(250, 250, 251, 1)',
+        //                 messageSize: '16px',
+        //                 messageLineHeight: '24px',
+        //                 backgroundColor: 'rgba(181, 27, 27, 1)',
+        //                 position: 'topRight',
+        //                 maxWidth: '432px',
+        //                 timeout: 2000
+        //             });
+        //         } else {
+        //             renderFunctions(data, gallery);
+        //             lightbox.refresh();
+        //         };
+        //     })
+        //     .catch((error) => {
+        //         console.log(error);
+        //     })
+        //     .finally(() => {
+        //         loader.style.display = 'none';
+        //         event.target.reset();
+        //     });
     } else {
         iziToast.show({
             message: 'Searching input cannot be empty! Please fill the input to start searching.',
