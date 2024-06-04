@@ -23,8 +23,8 @@ import axios from 'axios';
 
 export const pixabayApi = async (usersRequest) => {
     try {
-        pixabayApi = await axios.get("https://pixabay.com/api/?${searchParams.toString()}", {
-            searchParams: {
+        pixabayApi = await axios.get(`https://pixabay.com/api/`, {
+            params: {
                 key: "44096290-4b282435e4320beb633e0ff8a",
                 q: usersRequest,
                 image_type: "photo",
