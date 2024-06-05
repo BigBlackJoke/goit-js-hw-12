@@ -26,10 +26,10 @@ form.addEventListener("submit", async event => {
     event.preventDefault();
     gallery.innerHTML = '';
     page = 1;
-    search = input.value.trim();
+    search = input.value;
     loadMoreButton.style.display = 'none';
 
-    if (input.value != "") {
+    if (search != "") {
 
         loader.style.display = 'block';
             try {
@@ -50,6 +50,7 @@ form.addEventListener("submit", async event => {
                     renderFunctions(data, gallery);
                     lightbox.refresh();
                     loadMoreButton.style.display = 'block';
+                    page += 1;
                 }
             } catch (error) {
                 console.log(error);
@@ -73,6 +74,7 @@ form.addEventListener("submit", async event => {
 });
 
 loadMoreButton.addEventListener("click", async () => {
+    loader.style.display = 'block';
     loadMoreButton.style.display = 'none';
         try {
             const data = await pixabayApi(search, page);
@@ -84,5 +86,7 @@ loadMoreButton.addEventListener("click", async () => {
             }
         } catch (error) {
             console.log(error);
-        }
+        } finally {
+        loader.style.display = 'none';
+    }
 });

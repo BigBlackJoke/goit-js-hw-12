@@ -22,6 +22,6 @@ export const renderFunctions = (data, gallery) => {
           </div>
         </li>`
     }));
-    gallery.innerHTML = makingGallery.join('');
+    gallery.insertAdjacentHTML('beforeend', makingGallery.join(''));
 };
 
