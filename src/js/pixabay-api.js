@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const pixabayApi = async (usersRequest) => {
+export const pixabayApi = async (usersRequest, page = 1) => {
     try {
         const response = await axios.get(`https://pixabay.com/api/`, {
             params: {

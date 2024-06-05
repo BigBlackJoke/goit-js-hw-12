@@ -17,21 +17,23 @@ const loadMoreButton = document.querySelector(".next-page-button");
 loadMoreButton.style.display = 'none';
 loader.style.display = 'none';
 
+let page = 1;
+let search = '';
+
 let lightbox = new SimpleLightbox('.gallery a', { captions: true, captionsData: 'alt', captionPosition: 'bottom', captionDelay: 250 });
 
-let page = 1;
-
-form.addEventListener("submit", (event) => {
+form.addEventListener("submit", async event => {
     event.preventDefault();
     gallery.innerHTML = '';
-    
+    page = 1;
+    search = input.value.trim();
+    loadMoreButton.style.display = 'none';
+
     if (input.value != "") {
 
         loader.style.display = 'block';
-
-        const start = async () => {
             try {
-                const data = await pixabayApi(input.value, page);
+                const data = await pixabayApi(search, page);
 
                 if (data.hits.length === 0) {
                     iziToast.show({
@@ -55,9 +57,7 @@ form.addEventListener("submit", (event) => {
                 loader.style.display = 'none';
                 event.target.reset();
             }
-        }
-        
-        start();
+
     } else {
         iziToast.show({
             message: 'Searching input cannot be empty! Please fill the input to start searching.',
@@ -72,18 +72,17 @@ form.addEventListener("submit", (event) => {
     }
 });
 
-loadMoreButton.addEventListener("click", () => {
-    const loadMore = async () => {
+loadMoreButton.addEventListener("click", async () => {
+    loadMoreButton.style.display = 'none';
         try {
-            const data = await pixabayApi(input.value, page);
+            const data = await pixabayApi(search, page);
             renderFunctions(data, gallery);
             lightbox.refresh();
-            loadMoreButton.style.display = 'block';
-            page += 1;
+            if (data.hits.length > 0) {
+                loadMoreButton.style.display = 'block';
+                page += 1;
+            }
         } catch (error) {
             console.log(error);
         }
-    }
-
-    loadMore();
 });
