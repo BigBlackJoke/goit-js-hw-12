@@ -49,8 +49,10 @@ form.addEventListener("submit", async event => {
                 } else {
                     renderFunctions(data, gallery);
                     lightbox.refresh();
-                    loadMoreButton.style.display = 'block';
                     page += 1;
+                    if (data.totalHits > 15) {
+                        loadMoreButton.style.display = 'block';
+                    }
                 }
             } catch (error) {
                 console.log(error);
@@ -60,7 +62,7 @@ form.addEventListener("submit", async event => {
             }
 
     } else {
-        iziToast.show({
+        iziToast.warning({
             message: 'Searching input cannot be empty! Please fill the input to start searching.',
             messageColor: 'rgba(255, 255, 255, 1)',
             messageSize: '16px',
@@ -81,8 +83,28 @@ loadMoreButton.addEventListener("click", async () => {
             renderFunctions(data, gallery);
             lightbox.refresh();
             if (data.hits.length > 0) {
+                const eachImage = document.querySelector('.gallery-elements li');
+                const imageHeight = eachImage.getBoundingClientRect().height;
+                window.scrollBy({
+                top: imageHeight * 2,
+                behavior: 'smooth'
+            });
                 loadMoreButton.style.display = 'block';
                 page += 1;
+            }
+            const totalPages = Math.ceil(data.totalHits / 15);
+            if (page === totalPages) {
+                loadMoreButton.style.display = 'none';
+                iziToast.show({
+                message: 'We are sorry, but you have reached the end of search results.',
+                messageColor: 'rgba(255, 255, 255, 1)',
+                messageSize: '16px',
+                messageLineHeight: '24px',
+                backgroundColor: 'rgba(78, 117, 255, 1)',
+                position: 'topRight',
+                maxWidth: '432px',
+                timeout: 3000
+            });
             }
         } catch (error) {
             console.log(error);
